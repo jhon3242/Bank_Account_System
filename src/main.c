@@ -5,56 +5,7 @@ MYSQL connection;
 MYSQL_RES* result;
 MYSQL_ROW row;
 
-// MYSQL_RES*    sql_select(char *cmd)
-// {
-// 	mysql_query(conn, cmd);
-// 	result = mysql_store_result(conn);
-// 	// display_sql(result);
-// 	return result;
 
-// }
-
-void    display_sql(MYSQL_RES* result)
-{
-	MYSQL_FIELD     *fields;
-	MYSQL_ROW       row;
-	unsigned int    count;
-
-	if (result == 0)
-	{
-		// printf("Result is null.\n");
-		return ;
-	}
-		
-	fields = mysql_fetch_fields(result);
-	count = mysql_num_fields(result);
-	for(int i = 0; i < count; i++)
-	{
-		printf("[%s] ", fields[i].name);
-	}
-	printf("\n-------------------------------------\n");
-
-	count = mysql_num_fields(result);
-	while ((row = mysql_fetch_row(result)))
-	{
-		unsigned long *lengths;
-		lengths = mysql_fetch_lengths(result);
-		for(int i = 0; i < count; i++)
-		{
-			printf("[%.*s] ", (int) lengths[i],row[i] ? row[i] : "NULL");
-		}
-		printf("\n");
-	}
-}
-
-// INSERT / UPDATE / DELETE 쿼리
-void    sql_query(char *cmd)
-{
-	if(mysql_query(conn, cmd) != 0){
-		exit_with_msg("Worng Command.", EXIT_FAILURE);
-	}
-	printf("\nCommand excuted.\n");
-}
 
 // SQL 명령어를 종류에 따라서 맞게 
 MYSQL_RES*    before_cmd(char *cmd)
@@ -64,6 +15,7 @@ MYSQL_RES*    before_cmd(char *cmd)
 	return result;
 }
 
+// 로그인
 int	login()
 {
 	// 초기화
@@ -109,10 +61,29 @@ int	login()
 	if (ft_atoi(tmprow[MANAGER]) == 1)
 		manager_menu();
 	else
-		user_menu(user_num);
+	{
+		if (has_bankbook(user_num)) // 통장이 있는지 확인
+			user_menu(user_num);
+		else
+			create_bankbook(user_num);
+	}
 	return (0);
 }
 
+void manager_menu() // TODO 매니저 메뉴 구현 필요
+{
+	system("clear");
+	ft_printf("Welecome to manager menu\n");
+}
+
+void user_menu(int user_num) // TODO 유저 메뉴 구현 필요
+{
+	system("clear");
+	ft_printf("Welecome to user menu\n");
+}
+
+
+// 회원가입
 void create_account()
 {
 	char        buff[20];
@@ -186,9 +157,15 @@ void create_account()
 	free(cmd);
 	cmd = cmd2;
 
-	printf("%s\n", cmd);
+	
 	before_cmd(cmd);
+	printf("Create account successfuly\n");
+	// TODO 다시 메뉴로 가는게 좋을 듯
 }
+
+
+
+
 
 void init()
 {
@@ -205,33 +182,33 @@ void init()
 int main(int argc, char** argv){
 	int choice;
 
-    here:
-    system("clear");
+	here:
+	system("clear");
 
-    printf("\n\n\t\t\t🟩🤑🤑🤑🤑🤑🤑🤑🤑🤑🤑🤑🤑🤑🟩");
-    printf("\n\n\t\t\tMINI BANKING MANAGEMENT SYSTEM ");
-    printf("\n\n\t\t\t   [1] login\n\t\t\t   [2] create an new account\n\t\t\t   [3] exit");
-    printf("\n\n\t\t\t   select your option : ");
-    scanf("%d",&choice);
+	printf("\n\n\t\t\t🟩🤑🤑🤑🤑🤑🤑🤑🤑🤑🤑🤑🤑🤑🟩");
+	printf("\n\n\t\t\tMINI BANKING MANAGEMENT SYSTEM ");
+	printf("\n\n\t\t\t   [1] login\n\t\t\t   [2] create an new account\n\t\t\t   [3] exit");
+	printf("\n\n\t\t\t   select your option : ");
+	scanf("%d",&choice);
 
 	init();
-    if (choice == 1)
+	if (choice == 1)
 	{
-        if (login() == -1)
+		if (login() == -1)
 			goto here;
 	}
-    else if (choice == 2)
-        create_account();
-    else if (choice == 3)
-        exit(0);
-    else
-    {
-        system("clear");
-        printf("\n\n\t\t\t🟩🤑🤑🤑🤑🤑🤑🤑🤑🤑🤑🤑🤑🤑🟩");
-        printf("\n\n\t\t     Please enter the correct option number\n");
-        printf("\n\t\t      You will be redirected in 3 seconds\n");
-        sleep(3);
-        goto here;
-    }
-    return (0);
+	else if (choice == 2)
+		create_account();
+	else if (choice == 3)
+		exit(0);
+	else
+	{
+		system("clear");
+		printf("\n\n\t\t\t🟩🤑🤑🤑🤑🤑🤑🤑🤑🤑🤑🤑🤑🤑🟩");
+		printf("\n\n\t\t     Please enter the correct option number\n");
+		printf("\n\t\t      You will be redirected in 3 seconds\n");
+		sleep(3);
+		goto here;
+	}
+	return (0);
 }
