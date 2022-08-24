@@ -14,7 +14,7 @@ static char	*make_random_account_num(void)
 
 static int	same_account_num_ck(char *num)
 {
-	char		cmd[1024];
+	char		cmd[BUFF_SIZE];
 	MYSQL_RES	*result;
 
 	ft_strcat(cmd, "SELECT * from Account WHERE account_num = ");
@@ -29,14 +29,14 @@ static int	same_account_num_ck(char *num)
 // 통장 계설 함수
 void	create_bankbook(int user_num)
 {
-	char	cmd[1024];
+	char	cmd[BUFF_SIZE];
 	char	*account_num;
 
 	ft_printf("Do you want create bankbook?? (y/n)");
 	scanf("%s", cmd);
 	if (strcmp(cmd, "y") != 0)
 		return ;
-	ft_memset(cmd, 0, 1024);
+	ft_memset(cmd, 0, BUFF_SIZE);
 
 	// 통장 번호 생성
 	while (1)
@@ -61,10 +61,10 @@ void	create_bankbook(int user_num)
 // 통장이 있는지 확인하는 함수
 int has_bankbook(int user_num)
 {
-	char	cmd[1024];
+	char	cmd[BUFF_SIZE];
 	MYSQL_RES	*result;
 
-	ft_memset(cmd, 0, 1024);
+	ft_memset(cmd, 0, BUFF_SIZE);
 	ft_strcat(cmd, "SELECT * from Account WHERE user_num = ");
 	ft_strcat(cmd, ft_itoa(user_num));
 	before_cmd(cmd);

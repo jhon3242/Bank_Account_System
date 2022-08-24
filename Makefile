@@ -13,6 +13,7 @@ INCLUDE = -I./include
 SRC = $(SRC_DIR)/main.c\
 		$(SRC_DIR)/util.c\
 		$(SRC_DIR)/bankbook.c\
+		$(SRC_DIR)/transaction.c\
 
 
 OBJ = $(SRC:.c=.o)

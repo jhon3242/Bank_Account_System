@@ -29,3 +29,36 @@ void	initArr(char *arr, int size)
 		arr[i] = 0;
 	}
 }
+
+void	display_sql(MYSQL_RES* result)
+{
+	MYSQL_FIELD     *fields;
+	MYSQL_ROW       row;
+	unsigned int    count;
+
+	if (result == 0)
+	{
+		// printf("Result is null.\n");
+		return ;
+	}
+
+	fields = mysql_fetch_fields(result);
+	count = mysql_num_fields(result);
+	for(int i = 0; i < count; i++)
+	{
+		printf("[%s] ", fields[i].name);
+	}
+	printf("\n-------------------------------------\n");
+
+	count = mysql_num_fields(result);
+	while ((row = mysql_fetch_row(result)))
+	{
+		unsigned long *lengths;
+		lengths = mysql_fetch_lengths(result);
+		for(int i = 0; i < count; i++)
+		{
+			printf("[%.*s] ", (int) lengths[i],row[i] ? row[i] : "NULL");
+		}
+		printf("\n");
+	}
+}

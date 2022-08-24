@@ -5,8 +5,6 @@ MYSQL connection;
 MYSQL_RES* result;
 MYSQL_ROW row;
 
-
-
 // SQL 명령어를 종류에 따라서 맞게 
 MYSQL_RES*    before_cmd(char *cmd)
 {
@@ -59,27 +57,45 @@ int	login()
 	//사용자와 관리자를 구분해서 보내버리기
 	user_num = ft_atoi(tmprow[0]);
 	if (ft_atoi(tmprow[MANAGER]) == 1)
-		manager_menu();
+		manager_page();
 	else
 	{
 		if (has_bankbook(user_num)) // 통장이 있는지 확인
-			user_menu(user_num);
+			user_page(user_num);
 		else
 			create_bankbook(user_num);
 	}
 	return (0);
 }
 
-void manager_menu() // TODO 매니저 메뉴 구현 필요
+void manager_page() // TODO 매니저 페이지 구현 필요
 {
 	system("clear");
-	ft_printf("Welecome to manager menu\n");
+	ft_printf("Welecome to manager page\n");
 }
 
-void user_menu(int user_num) // TODO 유저 메뉴 구현 필요
+void user_page(int user_num) // TODO 유저 페이지 구현 필요
 {
+	int	choice;
+
 	system("clear");
-	ft_printf("Welecome to user menu\n");
+	here :
+	ft_printf("Welecome to user page\n\n");
+	
+	ft_printf("1. deposit\n");
+	ft_printf("2. withdraw\n");
+	ft_printf("3. transaction\n");
+	ft_printf("Select menu number : ");
+	scanf("%d", &choice);
+
+	if (choice == 1)
+		deposit(user_num);
+	else if (choice == 2)
+		withdraw(user_num);
+	else{
+		ft_printf("No match num. please enter number (ex : 1)\n");
+		goto here;
+	}
 }
 
 
@@ -162,8 +178,6 @@ void create_account()
 	printf("Create account successfuly\n");
 	// TODO 다시 메뉴로 가는게 좋을 듯
 }
-
-
 
 
 

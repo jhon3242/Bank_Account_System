@@ -12,6 +12,8 @@
 # define EXIT_ERROR 1
 # define EXIT_SUCCESS 0
 # define MANAGER 6
+# define BALANCE 1
+# define BUFF_SIZE 1024
 
 typedef struct	s_table
 {
@@ -19,6 +21,11 @@ typedef struct	s_table
 	char	**rows;
 	int		count;
 }				t_table;
+
+/* deposit.c
+================================================== */
+void	deposit(int user_num);
+void	withdraw(int user_num);
 
 /* bankbook.c
 ================================================== */
@@ -36,8 +43,8 @@ void		display_sql(MYSQL_RES* result);
 ================================================== */
 MYSQL_RES*	before_cmd(char *cmd);
 int			login();
-void		manager_menu();
-void		user_menu(int user_num);
+void		manager_page();
+void		user_page(int user_num);
 
 void		create_account();
 void		init();
