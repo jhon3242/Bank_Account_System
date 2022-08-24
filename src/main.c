@@ -18,11 +18,11 @@ int	login()
 {
 	// 초기화
 	int			user_num;
-	char    	id[20];
-    char    	pswd[20];
-	char        *cmd;
-	char        *cmd2;
-	MYSQL_ROW   tmprow;
+	char		id[20];
+	char		pswd[20];
+	char		*cmd;
+	char		*cmd2;
+	MYSQL_ROW	tmprow;
 	
 	//재로그인할 시
 	here:
@@ -43,14 +43,16 @@ int	login()
 	result = before_cmd(cmd2);
 	if (mysql_num_rows(result) == 0)
 	{
-		printf("No matched ID. Make account\n");// 띄어쓰기 나중에 수정
-		return (-1);
+		printf("\n\n\t\t\tNo matched ID. Make account\n");
+		sleep(2);
+		goto here;
 	}
 	// pasword 가 일치한지 확인
 	tmprow = mysql_fetch_row(result);
 	if (strcmp(tmprow[2], pswd) != 0)
 	{
-		printf("Password is not matched. Please enter right password\n"); // 띄어쓰기 나중에 수정
+		printf("\n\n\t\t\tPassword is not matched. Please enter right password\n");
+		sleep(2);
 		goto here;
 	}
 	
@@ -71,21 +73,21 @@ int	login()
 void manager_page() // TODO 매니저 페이지 구현 필요
 {
 	system("clear");
-	ft_printf("Welecome to manager page\n");
+	ft_printf("\n\n\t\t\tWelecome to manager page\n");
 }
 
-void user_page(int user_num) // TODO 유저 페이지 구현 필요
+void user_page(int user_num)
 {
 	int	choice;
 
 	system("clear");
 	here :
-	ft_printf("Welecome to user page\n\n");
+	ft_printf("\n\n\t\t\tWELECOME TO USER PAGE\n");
 	
-	ft_printf("1. deposit\n");
-	ft_printf("2. withdraw\n");
-	ft_printf("3. transaction\n");
-	ft_printf("Select menu number : ");
+	ft_printf("\n\t\t\t [1] deposit");
+	ft_printf("\n\t\t\t [2] withdraw");
+	ft_printf("\n\t\t\t [3] transaction");
+	ft_printf("\n\n\t\t\tSelect menu number : ");
 	scanf("%d", &choice);
 
 	if (choice == 1)
@@ -93,7 +95,8 @@ void user_page(int user_num) // TODO 유저 페이지 구현 필요
 	else if (choice == 2)
 		withdraw(user_num);
 	else{
-		ft_printf("No match num. please enter number (ex : 1)\n");
+		system("clear");
+		ft_printf("\n\n\t\t\tNo match num. please enter number (ex : 1)");
 		goto here;
 	}
 }
@@ -102,17 +105,20 @@ void user_page(int user_num) // TODO 유저 페이지 구현 필요
 // 회원가입
 void create_account()
 {
-	char        buff[20];
+	char		buff[20];
 	char		*cmd;
 	char		*cmd2;
-	char        *id;
-	char        *passwd;
-	char        *tmp;
+	char		*id;
+	char		*passwd;
+	char		*tmp;
 	MYSQL_ROW   tmprow;
 
+	
 	here:
+	system("clear");
 	// id 입력 받기
-	printf("ID : ");
+	ft_printf("\n\n\t\t\t Create new account.");
+	printf("\n\n\t\t\tID : ");
 	scanf("%s", buff);
 
 	// 해당 id가 있는지 검색하고 없으면 종료
@@ -122,7 +128,8 @@ void create_account()
 	result = before_cmd(cmd2);
 	if (mysql_num_rows(result) != 0)
 	{
-		printf("ID you entered already exist. Try another\n");
+		printf("\n\n\t\t\tID you entered already exist. Try another\n");
+		sleep(2);
 		goto here;
 	}
 	
@@ -133,7 +140,7 @@ void create_account()
 	cmd = ft_strjoin(cmd2, "', ");
 
 	// password 입력 받기
-	printf("PASSWORD : ");
+	printf("\n\t\t\tPASSWORD : ");
 	scanf("%s", buff);
 	cmd2 = ft_strjoin(cmd, "'");
 	free(cmd);
@@ -144,7 +151,7 @@ void create_account()
 	cmd = cmd2;
 	
 	// name 입력 받기
-	printf("NAME : ");
+	printf("\n\t\t\tNAME : ");
 	scanf("%s", buff);
 	cmd2 = ft_strjoin(cmd, "'");
 	free(cmd);
@@ -155,7 +162,7 @@ void create_account()
 	cmd = cmd2;
 
 	// age 입력 받기
-	printf("age : ");
+	printf("\n\t\t\tage : ");
 	scanf("%s", buff);
 	cmd2 = ft_strjoin(cmd, buff);
 	free(cmd);
@@ -163,7 +170,7 @@ void create_account()
 	free(cmd2);
 
 	// email 입력 받기
-	printf("EMAIL : ");
+	printf("\n\t\t\tEMAIL : ");
 	scanf("%s", buff);
 	cmd2 = ft_strjoin(cmd, "'");
 	free(cmd);
@@ -175,7 +182,7 @@ void create_account()
 
 	
 	before_cmd(cmd);
-	printf("Create account successfuly\n");
+	printf("\n\n\t\t\tCreate account successfuly\n");
 	// TODO 다시 메뉴로 가는게 좋을 듯
 }
 

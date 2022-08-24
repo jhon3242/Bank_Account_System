@@ -1,22 +1,5 @@
 #include "main.h"
 
-// char	*get_account_num(int user_num)
-// {
-// 	char	cmd[BUFF_SIZE];
-// }
-
-// char	*get_balance(int account_num)
-// {
-// 	char		cmd[BUFF_SIZE];
-// 	MYSQL_RES	*result;
-
-// 	ft_strcat(cmd, "SELECT balance from Account WHERE account_num = ")
-// 	ft_strcat(cmd, account_num);
-// 	result = before_cmd(cmd);
-// 	display_cmd(result);
-// }
-
-
 // 입금
 void	deposit(int user_num)
 {
@@ -26,9 +9,10 @@ void	deposit(int user_num)
 	char		buff[BUFF_SIZE];
 	char		*balance;
 
-	ft_printf("Welecome to deposit page!\n\n"); // TODO 추가적인 화면 구성 필요
+	system("clear");
+	ft_printf("\n\n\t\t\tWELECOME TO DEPOSIT PAGE!\n\n");
 
-	ft_printf("Enter amount to diposit (ex : 1000000) : ");
+	ft_printf("\n\n\t\t\tEnter amount to diposit (ex : 1000000)\n\n\t\t\t : ");
 	scanf("%s", buff);
 	
 	ft_strcat(cmd, "SELECT * from Account WHERE user_num = ");
@@ -56,8 +40,9 @@ void	deposit(int user_num)
 	ft_strcat(cmd, ")");
 	before_cmd(cmd);
 
-	ft_printf("Deposit success!\n");
+	ft_printf("\n\t\t\tDeposit success!\n");
 }
+
 
 void	withdraw(int user_num)
 {
@@ -68,7 +53,8 @@ void	withdraw(int user_num)
 	char		*balance;
 	int			miss_count;
 
-	ft_printf("Welecome to withdraw page!\n\n"); // TODO 추가적인 화면 구성 필요
+	system("clear");
+	ft_printf("\n\n\t\t\tWELECOME TO WITHDRAW PAGE!\n\n");
 
 	// 고객 정보 가져오기
 	ft_strcat(cmd, "SELECT * from User WHERE user_num = ");
@@ -80,14 +66,15 @@ void	withdraw(int user_num)
 	miss_count = 0;
 	while (1)
 	{
-		ft_printf("Please enter your password : ");
+		ft_printf("\n\n\t\t\tPlease enter your password : ");
 		scanf("%s", buff);
 		if (ft_strcmp(row[PASSWORD], buff))
 		{
-			ft_printf("Password doesn't match %d times.\n", 1 + miss_count++);
+			system("clear");
+			ft_printf("\n\t\t\tPassword doesn't match %d times.\n", 1 + miss_count++);
 			if (miss_count >= 3)
 			{
-				ft_printf("maximum try count exceed!\n\n");
+				ft_printf("\n\t\t\tmaximum try count exceed!\n\n");
 				return ;
 			}
 		}
@@ -97,7 +84,8 @@ void	withdraw(int user_num)
 
 	ft_memset(buff, 0, BUFF_SIZE);
 	ft_memset(cmd, 0, BUFF_SIZE);
-	ft_printf("Enter amount to withdraw (ex : 1000000) : ");
+	system("clear");
+	ft_printf("\n\n\t\t\tEnter amount to withdraw (ex : 1000000)\n\n\t\t\t : ");
 	scanf("%s", buff);
 	
 	// 고객 계좌 정보 가져오기
@@ -109,10 +97,9 @@ void	withdraw(int user_num)
 	// 가지고 있는 돈이 출금 금액보다 적은 경우
 	if (ft_atoi(row[BALANCE]) < ft_atoi(buff))
 	{
-		ft_printf("You don't have enough money!\n");
+		ft_printf("\n\n\t\t\tYou don't have enough money!\n");
 		return ;
 	}
-
 	
 	balance = ft_itoa(ft_atoi(row[BALANCE]) - ft_atoi(buff));
 
@@ -134,15 +121,13 @@ void	withdraw(int user_num)
 	ft_strcat(cmd, row[0]);
 	ft_strcat(cmd, ")");
 	before_cmd(cmd);
-
-	ft_printf("Withdraw success!\n");
+	free(balance);
+	ft_printf("\n\n\t\t\tWithdraw success!\n");
 }
 
 // 이체
-void	transmission_page()
+void	transmission(int user_num)
 {
-
-	ft_printf("What type of imformation about dispoit address will you give me?\n");
-	ft_printf("1. user_num\n");
-	ft_printf("2. account_num\n");
-}
+	system("clear");
+	ft_printf("\n\n\t\t\tWelecome to trasmission page!\n");
+}	

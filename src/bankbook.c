@@ -32,7 +32,7 @@ void	create_bankbook(int user_num)
 	char	cmd[BUFF_SIZE];
 	char	*account_num;
 
-	ft_printf("Do you want create bankbook?? (y/n)");
+	ft_printf("\n\t\t\tDo you want create bankbook?? (y/n) : ");
 	scanf("%s", cmd);
 	if (strcmp(cmd, "y") != 0)
 		return ;
@@ -55,7 +55,7 @@ void	create_bankbook(int user_num)
 	ft_strcat(cmd, ft_itoa(user_num));
 	ft_strcat(cmd, ")");
 	before_cmd(cmd);
-	ft_printf("You create new bankbook!\n");
+	ft_printf("\n\t\t\tYou create new bankbook!\n");
 }
 
 // 통장이 있는지 확인하는 함수
