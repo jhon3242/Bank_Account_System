@@ -11,8 +11,10 @@
 #include <stdlib.h>
 # define EXIT_ERROR 1
 # define EXIT_SUCCESS 0
+# define PASSWORD 2
 # define MANAGER 6
 # define BALANCE 1
+
 # define BUFF_SIZE 1024
 
 typedef struct	s_table

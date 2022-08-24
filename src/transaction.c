@@ -66,12 +66,41 @@ void	withdraw(int user_num)
 	char		cmd[BUFF_SIZE];
 	char		buff[BUFF_SIZE];
 	char		*balance;
+	int			miss_count;
 
 	ft_printf("Welecome to withdraw page!\n\n"); // TODO 추가적인 화면 구성 필요
+
+	// 고객 정보 가져오기
+	ft_strcat(cmd, "SELECT * from User WHERE user_num = ");
+	ft_strcat(cmd, ft_itoa(user_num));
+	result = before_cmd(cmd);
+	row = mysql_fetch_row(result);
+
+	// 비밀번호 확인
+	miss_count = 0;
+	while (1)
+	{
+		ft_printf("Please enter your password : ");
+		scanf("%s", buff);
+		if (ft_strcmp(row[PASSWORD], buff))
+		{
+			ft_printf("Password doesn't match %d times.\n", 1 + miss_count++);
+			if (miss_count >= 3)
+			{
+				ft_printf("maximum try count exceed!\n\n");
+				return ;
+			}
+		}
+		else
+			break;
+	}
+
+	ft_memset(buff, 0, BUFF_SIZE);
+	ft_memset(cmd, 0, BUFF_SIZE);
 	ft_printf("Enter amount to withdraw (ex : 1000000) : ");
 	scanf("%s", buff);
 	
-	// 고객 정보 가져오기
+	// 고객 계좌 정보 가져오기
 	ft_strcat(cmd, "SELECT * from Account WHERE user_num = ");
 	ft_strcat(cmd, ft_itoa(user_num));
 	result = before_cmd(cmd);
@@ -84,6 +113,7 @@ void	withdraw(int user_num)
 		return ;
 	}
 
+	
 	balance = ft_itoa(ft_atoi(row[BALANCE]) - ft_atoi(buff));
 
 	// 계좌 금액 정보 수정
