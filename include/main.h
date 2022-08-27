@@ -28,7 +28,7 @@ typedef struct	s_table
 ================================================== */
 void	deposit(int user_num);
 void	withdraw(int user_num);
-
+void	transfer(int user_num);
 /* bankbook.c
 ================================================== */
 void		create_bankbook(int user_num);
@@ -40,11 +40,12 @@ char		*str_to_upper(char *str);
 void		exit_with_msg(const char * msg, int code);
 void		initArr(char *arr, int size);
 void		display_sql(MYSQL_RES* result);
+void		print_userinfo(int user_num);
 
 /* main.c
 ================================================== */
 MYSQL_RES*	before_cmd(char *cmd);
-int			login();
+void		login();
 void		manager_page();
 void		user_page(int user_num);
 

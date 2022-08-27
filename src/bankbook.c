@@ -17,10 +17,11 @@ static int	same_account_num_ck(char *num)
 	char		cmd[BUFF_SIZE];
 	MYSQL_RES	*result;
 
+	
 	ft_strcat(cmd, "SELECT * from Account WHERE account_num = ");
 	ft_strcat(cmd, num);
 	result = before_cmd(cmd);
-	if (mysql_num_rows(result) > 0)
+	if (result && mysql_num_rows(result) > 0)
 		return (1);
 	else
 		return (0);
@@ -34,7 +35,7 @@ void	create_bankbook(int user_num)
 
 	ft_printf("\n\t\t\tDo you want create bankbook?? (y/n) : ");
 	scanf("%s", cmd);
-	if (strcmp(cmd, "y") != 0)
+	if (ft_strncmp(cmd, "y", 1) != 0)
 		return ;
 	ft_memset(cmd, 0, BUFF_SIZE);
 
@@ -44,9 +45,7 @@ void	create_bankbook(int user_num)
 		account_num = make_random_account_num();
 		if (same_account_num_ck(account_num) == 0) // 동일한 통장 번호가 없으면 break 로 반복문을 빠져나감
 			break;
-		free(account_num);
 	}
-
 	// sql 쿼리문 작성
 	ft_strcat(cmd, "INSERT INTO Account (account_num, user_num) VALUE (");
 	ft_strcat(cmd, account_num);
@@ -54,6 +53,7 @@ void	create_bankbook(int user_num)
 	ft_strcat(cmd, ", ");
 	ft_strcat(cmd, ft_itoa(user_num));
 	ft_strcat(cmd, ")");
+	ft_printf("%s\n", cmd);
 	before_cmd(cmd);
 	ft_printf("\n\t\t\tYou create new bankbook!\n");
 }
