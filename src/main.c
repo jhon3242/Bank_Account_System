@@ -100,10 +100,30 @@ void	print_userinfo(int user_num)
 	printf("\033[0;32mBalance\033[0m : %s\n", row[1]);
 }
 
-void manager_page() // TODO 매니저 페이지 구현 필요
+void manager_page()
 {
+	char	cmd[1024];
+	char	choice[10];
+
+	here:
 	system("clear");
-	
+	ft_printf("\n\n\t\t\t🟩WELECOME TO MANAGER PAGE🟩\n");
+
+	ft_printf("\n\t\t   See all the transaction history? (y/n) : ");
+	scanf("%s", choice);
+	if (!ft_strcmp(choice, "y"))
+	{
+		system("clear");
+		ft_printf("\n\n\t\t\t🟩TRANSACTION HISTORY🟩\n");
+		ft_memset(cmd, 0, 1024);
+		ft_strcat(cmd, "select * from Transaction");
+		result = before_cmd(cmd);
+		display_sql(result);
+		ft_printf("\n\t\t\tENTER 'F' TO EXIT : ");
+		ft_memset(choice, 0, 10);
+		scanf("%s", choice);
+		goto here;
+	}
 }
 
 void user_page(int user_num)
@@ -137,8 +157,6 @@ void user_page(int user_num)
 	}
 }
 
-
-// 회원가입
 void create_account()
 {
 	char		buff[20];
@@ -221,8 +239,6 @@ void create_account()
 	printf("\n\n\t\t\tCreate account successfuly\n");
 }
 
-
-
 void init()
 {
 	char 		DB_HOST[] = "localhost";
@@ -233,7 +249,6 @@ void init()
 	mysql_init(&connection);
 	conn = mysql_real_connect(&connection, DB_HOST, DB_USER, DB_PASS, DB_NAME, 3306, (char *)NULL, 0);
 }
-
 
 int main(int argc, char** argv){
 	int choice;
@@ -249,7 +264,7 @@ int main(int argc, char** argv){
 		scanf("%d",&choice);
 
 		if (choice == 1)
-			login(); // 이 부분 while문으로 했을 때 문제 없는지 확인 필요함
+			login();
 		else if (choice == 2)
 			create_account();
 		else if (choice == 3)
